@@ -1,0 +1,20 @@
+:host {
+    background-color: white;
+    height: auto;
+    width: auto;
+    margin: 1.2rem 0 0 0;
+    display: block;
+    overflow: auto;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    
+    display: flex;
+    flex-direction: column;
+    .app-body {
+        display: flex;
+        flex-direction: row;
+    }
+}
