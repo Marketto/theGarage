@@ -1,0 +1,26 @@
+:host {
+    margin: 0;
+    padding: 0;
+    .navbar {
+        padding: 0.1rem 0.9rem;
+        background-color: white;
+        height: 3.2rem;
+        display: flex;
+        flex-flow: row;
+
+        button.navbar-toggler {
+            fa-icon {
+                padding: 0.1rem 0;
+            }
+            &::after {
+                display: none;
+            }
+        }
+        [ngbDropdown] + span {
+            margin: 0 1rem;
+        }
+        .spacer {
+            width: 100%;
+        }
+    }
+}

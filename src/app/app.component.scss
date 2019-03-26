@@ -16,5 +16,8 @@
     .app-body {
         display: flex;
         flex-direction: row;
+        .body-content {
+            width: 100%;
+        }
     }
 }

@@ -1,0 +1,18 @@
+form
+  .form-group
+    label Vehicle plate number
+    input.form-control
+
+  .form-group.vehicle-type
+    label Vehicle type
+    .btn-group.btn-group-toggle(data-toggle="buttons")
+      label.btn.btn-secondary
+        fa-icon.btn([icon]="carIcon")
+        input(type="radio", name="vehicleType")
+        |Car
+      label.btn.btn-secondary
+        fa-icon.btn([icon]="motoIcon")
+        input(type="radio", name="vehicleType")
+        |Motorbike
+    
+  button.btn.btn-primary.confirm Assign parking place
