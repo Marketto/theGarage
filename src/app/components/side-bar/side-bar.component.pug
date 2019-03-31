@@ -1,4 +1,12 @@
 input.form-control(type="search" placeholder="Search")
 
 h6 Levels
+    ul
+        li(*ngFor="let level of floors")
+            a([routerLink]="'/level/' + level", routerLinkActive="active") Level {{level + 1}}
 h6 Types
+    ul
+        li
+            a([routerLink]="'/level/' + carType", routerLinkActive="active") Car
+        li
+            a([routerLink]="'/vehicle/' + motorbykeType", routerLinkActive="active") Motorbike

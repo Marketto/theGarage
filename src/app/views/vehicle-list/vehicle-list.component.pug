@@ -1,1 +1,6 @@
-p vehicle-list works!
+.container-fluid
+    .row(*ngFor="let vehicle of vehicles")
+        .col-xs-6 {{vehicle.plate}}
+        .col-xs-6 Level {{vehicle.floor + 1}}
+        .col-xs-6 {{vehicle.type}}
+        .col-xs-6 Slot: {{vehicle.place + 1}}

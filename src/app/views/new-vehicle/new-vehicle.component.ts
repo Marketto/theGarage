@@ -17,7 +17,6 @@ export class NewVehicleComponent implements OnInit {
   public carType: VehicleType = VehicleType.CAR;
   public motorbykeType: VehicleType = VehicleType.MOTORBIKE;
 
-
   constructor(garageResourceService: GarageResourceService) {
     this.garageResource = garageResourceService;
   }

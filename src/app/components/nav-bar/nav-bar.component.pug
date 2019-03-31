@@ -3,6 +3,6 @@ nav.navbar.navbar-light
     button.navbar-toggler(ngbDropdownToggle)
       fa-icon.btn([icon]="menuIcon")
     div(ngbDropdownMenu aria-labelledby="mainMenu")
-      a.dropdown-item(*ngFor="let route of routeViews", [routerLink]="[route.url]") {{route.title}}
+      a.dropdown-item(*ngFor="let route of routeViews", [routerLink]="route.url", routerLinkActive="active") {{route.title}}
   span.navbar-brand.mb-0.h1 {{currentRouteTitle}}
   .spacer
