@@ -1,18 +1,22 @@
-form
+form(name="newVehicle", #vehicleForm="ngForm")
   .form-group
     label Vehicle plate number
-    input.form-control
+    input.form-control([(ngModel)]="newVehicle.plate", name="plate", required)
 
   .form-group.vehicle-type
     label Vehicle type
-    .btn-group.btn-group-toggle(data-toggle="buttons")
-      label.btn.btn-secondary
+    .btn-group.btn-group-toggle([(ngModel)]="newVehicle.type", ngbRadioGroup, name="type", required)
+      label.btn.btn-secondary(ngbButtonLabel)
         fa-icon.btn([icon]="carIcon")
-        input(type="radio", name="vehicleType")
+        input(type="radio", ngbButton, [value]="carType")
         |Car
-      label.btn.btn-secondary
+      label.btn.btn-secondary(ngbButtonLabel)
         fa-icon.btn([icon]="motoIcon")
-        input(type="radio", name="vehicleType")
+        input(type="radio", ngbButton, [value]="motorbykeType")
         |Motorbike
     
-  button.btn.btn-primary.confirm Assign parking place
+  button.btn.btn-primary.confirm(
+    type="submit",
+    [disabled]="vehicleForm.invalid",
+    (click)="save(newVehicle)"
+  ) Assign parking place
