@@ -4,6 +4,7 @@ import { GarageConfigService } from '../garage-config/garage-config.service';
 import Dexie from 'dexie';
 import { ParkingPlaceInterface } from '../../classes/parking-place.interface';
 import { VehicleInterface } from 'src/app/classes/vehicle.interface';
+import { isNullOrUndefined } from 'util';
 @Injectable({
   providedIn: 'root'
 })
@@ -31,11 +32,10 @@ export class GarageResourceService extends Dexie {
    * @returns vehicle list
    */
   public async find(criteria: {id?: number, plate?: string, floor?: number, place?: number} = {}): Promise<VehicleInterface[]> {
-    const primaryIds: string[] = ['id', 'plate'];
-    if (Object.keys(criteria).some(key => primaryIds.includes(key))) {
-      return await this.vehiclesTable.where(criteria).toArray();
-    }
-    return await this.vehiclesTable.toArray();
+    const vehicleQuery = isNullOrUndefined(criteria.id) ? this.vehiclesTable : this.vehiclesTable.where({id: criteria.id});
+    const filters = Object.keys(criteria).filter(param => param !== 'id' && !isNullOrUndefined(criteria[param]));
+    const records = await vehicleQuery.toArray();
+    return records.filter((vehicle: VehicleInterface) => !vehicle.leaveDt && !filters.some(param => criteria[param] !== vehicle[param]));
   }
 
   /**

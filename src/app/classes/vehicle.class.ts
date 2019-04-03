@@ -60,14 +60,13 @@ export class Vehicle extends IndexedDbModel implements VehicleInterface {
             enterDt,
             leaveDt
         } = this;
-        return {
-            id,
+        return Object.assign({
             plate,
             type,
             floor,
             place,
             enterDt,
             leaveDt
-        } as VehicleInterface;
+        }, id ? {id} : {}) as VehicleInterface;
     }
 }

@@ -1,0 +1,36 @@
+.card {
+    margin: 0.5rem 0;
+    .card-body {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: baseline;
+        padding: 1rem;
+        & > * {
+            padding: 0.4rem;
+            margin: 0;
+            flex: 1 50%;
+            &:nth-child(odd) {
+                text-align: start;
+                &>span {
+                    margin: 0 0 0 1rem;
+                }
+                
+            }
+            &:nth-child(even) {
+                text-align: end;
+                &>span {
+                    margin: 0 0 0 1rem;
+                }
+            }
+            fa-icon {
+                padding: 0;
+            }
+        }
+        .flexy-badge {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+    }
+}

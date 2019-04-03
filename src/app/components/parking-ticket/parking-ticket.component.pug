@@ -1,0 +1,11 @@
+.card
+    .card-body
+        h5
+            .badge.badge-primary {{ticket.plate}}
+        p.card-text.flexy-badge Level
+            span.badge.badge-pill.badge-info {{ticket.floor + 1}}
+        p.card-text
+            fa-icon.btn([icon]="vehicleIcon")
+            span.text-capitalize {{ticket.type | lowercase}}
+        p.card-text.flexy-badge Slot
+            span.badge.badge-pill.badge-danger {{ticket.place + 1}}

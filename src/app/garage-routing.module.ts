@@ -6,15 +6,28 @@ import { NewVehicleComponent } from './views/new-vehicle/new-vehicle.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/vehicles',
+    redirectTo: '/garage',
     pathMatch: 'full'
   },
   {
-    path: 'vehicles',
-    component: VehicleListComponent
+    path: 'garage',
+    children: [
+      {
+        path: '',
+        component: VehicleListComponent
+      },
+      {
+        path: 'level/:floor',
+        component: VehicleListComponent
+      },
+      {
+        path: 'vehicle/:type',
+        component: VehicleListComponent
+      }
+    ]
   },
   {
-    path: 'vehicles/new',
+    path: 'new-ticket',
     component: NewVehicleComponent
   }
 ];

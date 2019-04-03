@@ -3,7 +3,7 @@ import { faBars, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-nav-bar',
+  selector: 'garage-nav-bar',
   templateUrl: './nav-bar.component.pug',
   styleUrls: ['./nav-bar.component.scss']
 })
@@ -12,10 +12,10 @@ export class NavBarComponent implements OnInit {
   constructor(private router: Router) { }
   public menuIcon: IconDefinition = faBars;
   public routeViews: {url: string, title: string}[] = [{
-    url: '/vehicles/new',
+    url: '/new-ticket',
     title: 'Assign parking place'
   }, {
-    url: '/vehicles',
+    url: '/garage',
     title: 'Vehicles'
   }];
 

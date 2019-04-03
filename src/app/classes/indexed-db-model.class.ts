@@ -1,5 +1,3 @@
-import { isFunction, isNullOrUndefined } from 'util';
-
 export abstract class IndexedDbModel {
     public id: number;
 
@@ -8,10 +6,6 @@ export abstract class IndexedDbModel {
     }
 
     public static dbSchema() {
-        const obj = this.prototype.constructor();
-        const keys = Object.keys(obj).filter((key: string) => {
-            return !isFunction(obj[key]) && !(/^(?:\$|_)|^id$/).test(key);
-        });
-        return `++id, ${keys.join(', ')}`;
+        return '++id';
     }
 }

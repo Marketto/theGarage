@@ -3,10 +3,10 @@ input.form-control(type="search" placeholder="Search")
 h6 Levels
     ul
         li(*ngFor="let level of floors")
-            a([routerLink]="'/level/' + level", routerLinkActive="active") Level {{level + 1}}
+            a([routerLink]="'garage/level/' + level", routerLinkActive="active") Level {{level + 1}}
 h6 Types
     ul
         li
-            a([routerLink]="'/level/' + carType", routerLinkActive="active") Car
+            a([routerLink]="'garage/vehicle/' + carType", routerLinkActive="active") Car
         li
-            a([routerLink]="'/vehicle/' + motorbykeType", routerLinkActive="active") Motorbike
+            a([routerLink]="'garage/vehicle/' + motorbykeType", routerLinkActive="active") Motorbike

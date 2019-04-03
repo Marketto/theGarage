@@ -3,7 +3,7 @@ import { GarageConfigService } from 'src/app/service/garage-config/garage-config
 import { VehicleType } from 'src/app/classes/vehicle-type.enum';
 
 @Component({
-  selector: 'app-side-bar',
+  selector: 'garage-side-bar',
   templateUrl: './side-bar.component.pug',
   styleUrls: ['./side-bar.component.scss']
 })
