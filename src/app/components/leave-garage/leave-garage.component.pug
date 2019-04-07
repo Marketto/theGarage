@@ -1,0 +1,22 @@
+.modal-header
+  h4.modal-title Leave Garage
+  button.close(type="button", aria-describedby="modal-title", (click)="cancel()")
+    span(aria-hidden="true") &times;
+.modal-body
+  .content
+    h5
+      .badge.badge-primary {{ticket.plate}}
+    p.flexy-badge Level
+      span.badge.badge-pill.badge-info {{ticket.floor + 1}}
+    p
+      fa-icon.btn([icon]="vehicleIcon")
+      span.text-capitalize {{ticket.type | lowercase}}
+    p.flexy-badge Slot
+      span.badge.badge-pill.badge-danger {{ ticket.place + 1 }}
+    p.flexy-badge Entrance
+      span.badge.badge-pill.badge-info {{ ticket.enterDt | date }}
+    p.flexy-badge Price
+      span.badge.badge-pill.badge-info {{ price | currency : '€' }}
+.modal-footer
+  button.btn.btn-outline-secondary(type="button", (click)="cancel()") Cancel
+  button.btn.btn-danger(type="button", (click)="confirm()") Pay and leave

@@ -11,6 +11,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { VehicleListComponent } from './views/vehicle-list/vehicle-list.component';
 import { NewVehicleComponent } from './views/new-vehicle/new-vehicle.component';
 import { ParkingTicketComponent } from './components/parking-ticket/parking-ticket.component';
+import { LeaveGarageComponent } from './components/leave-garage/leave-garage.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ParkingTicketComponent } from './components/parking-ticket/parking-tick
     SideBarComponent,
     VehicleListComponent,
     NewVehicleComponent,
-    ParkingTicketComponent
+    ParkingTicketComponent,
+    LeaveGarageComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +29,9 @@ import { ParkingTicketComponent } from './components/parking-ticket/parking-tick
     FormsModule,
     NgbModule,
     FontAwesomeModule
+  ],
+  entryComponents: [
+    LeaveGarageComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

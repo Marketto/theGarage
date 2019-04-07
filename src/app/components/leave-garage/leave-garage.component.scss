@@ -1,0 +1,37 @@
+.modal-body>.content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: baseline;
+    padding: 1rem;
+    & > * {
+        padding: 0.4rem;
+        margin: 0;
+        flex: 1 50%;
+        &:nth-child(odd) {
+            text-align: start;
+            &>span {
+                margin: 0 0 0 1rem;
+            }
+            &.flexy-badge {
+                justify-content: flex-start;
+            }
+        }
+        &:nth-child(even) {
+            text-align: end;
+            &>span {
+                margin: 0 0 0 1rem;
+            }
+            &.flexy-badge {
+                justify-content: flex-end;
+            }
+        }
+        fa-icon {
+            padding: 0;
+        }
+    }
+    .flexy-badge {
+        display: flex;
+        align-items: center;
+    }
+}

@@ -1,4 +1,14 @@
 :host {
+    $spacing: 0.5rem;
     margin: 0;
-    padding: 0.9em;
+    padding: $spacing;
+    .search, .list {
+        margin: $spacing*2 $spacing;
+    }
+    & > div:first-child {
+        margin-top: $spacing;
+    }
+    & > div:last-child {
+        margin-bottom: $spacing;
+    }
 }

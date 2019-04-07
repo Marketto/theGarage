@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { GarageResourceService } from 'src/app/service/garage-resource/garage-resource.service';
-import { VehicleInterface } from 'src/app/classes/vehicle.interface';
+import { GarageResourceService } from '../../service/garage-resource/garage-resource.service';
+import { VehicleInterface } from '../../classes/vehicle.interface';
 import { ActivatedRoute } from '@angular/router';
 import { VehicleType } from 'src/app/classes/vehicle-type.enum';
-import { isNumber } from 'util';
+import { VehicleOperationService } from '../../service/vehicle-operation/vehicle-operation.service';
 
 @Component({
   selector: 'garage-vehicle-list',
@@ -11,13 +11,19 @@ import { isNumber } from 'util';
   styleUrls: ['./vehicle-list.component.scss']
 })
 export class VehicleListComponent implements OnInit {
-  private garageResourceService: GarageResourceService;
-  private activatedRoute: ActivatedRoute;
   public vehicles: VehicleInterface[];
 
-  constructor(garageResourceService: GarageResourceService, activatedRoute: ActivatedRoute) {
-    this.garageResourceService = garageResourceService;
-    this.activatedRoute = activatedRoute;
+  constructor(
+    private garageResourceService: GarageResourceService,
+    private activatedRoute: ActivatedRoute,
+    private vehicleOperationService: VehicleOperationService
+  ) {}
+
+  leaveGarage(vehicle: VehicleInterface) {
+    return this.vehicleOperationService.leaveGarage(vehicle)
+      .then(() => this.garageResourceService.leave(vehicle))
+      .then(() => this.vehicles.splice(this.vehicles.findIndex((v: VehicleInterface) => v === vehicle), 1))
+      .catch(() => {});
   }
 
   ngOnInit() {

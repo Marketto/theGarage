@@ -10,15 +10,13 @@ import { GarageResourceService } from '../../service/garage-resource/garage-reso
   styleUrls: ['./new-vehicle.component.scss']
 })
 export class NewVehicleComponent implements OnInit {
-  private garageResource: GarageResourceService;
   public carIcon: IconDefinition = faCarSide;
   public motoIcon: IconDefinition = faMotorcycle;
   public newVehicle: Vehicle;
   public carType: VehicleType = VehicleType.CAR;
   public motorbykeType: VehicleType = VehicleType.MOTORBIKE;
 
-  constructor(garageResourceService: GarageResourceService) {
-    this.garageResource = garageResourceService;
+  constructor(private garageResource: GarageResourceService) {
     this.cleanVehicle();
   }
 

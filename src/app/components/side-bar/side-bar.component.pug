@@ -1,12 +1,14 @@
-input.form-control(type="search" placeholder="Search")
-
-h6 Levels
+.search
+    input.form-control(type="search", placeholder="Search", [(ngModel)]="search")
+.list
+    h6 Levels
     ul
         li(*ngFor="let level of floors")
-            a([routerLink]="'garage/level/' + level", routerLinkActive="active") Level {{level + 1}}
-h6 Types
+            a([routerLink]="['/garage/level', level]", routerLinkActive="active") Level {{level + 1}}
+.list
+    h6 Types
     ul
         li
-            a([routerLink]="'garage/vehicle/' + carType", routerLinkActive="active") Car
+            a([routerLink]="['/garage/vehicle', carType]", routerLinkActive="active") Car
         li
-            a([routerLink]="'garage/vehicle/' + motorbykeType", routerLinkActive="active") Motorbike
+            a([routerLink]="['/garage/vehicle', motorbykeType]", routerLinkActive="active") Motorbike

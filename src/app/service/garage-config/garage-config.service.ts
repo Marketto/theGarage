@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as GARAGE_CONFIG from '../../../assets/garage.json';
+import { VehicleType } from 'src/app/classes/vehicle-type.enum.js';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,9 @@ export class GarageConfigService {
   public structure: {
     floors: ReadonlyArray<number>,
     places: ReadonlyArray<number>
+  };
+  public pricePerHour: {
+    [VehicleType: string]: number
   };
 
   constructor() {

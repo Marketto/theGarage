@@ -1,5 +1,5 @@
 garage-nav-bar.header
 div.garage-body
-  garage-side-bar
+  garage-side-bar.d-none.d-lg-block((searchChange)="searchVehicle($event)")
   .body-content
     router-outlet
