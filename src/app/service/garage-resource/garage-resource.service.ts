@@ -3,22 +3,21 @@ import { Vehicle } from '../../classes/vehicle.class';
 import { GarageConfigService } from '../garage-config/garage-config.service';
 import Dexie from 'dexie';
 import { ParkingPlaceInterface } from '../../classes/parking-place.interface';
-import { VehicleInterface } from 'src/app/classes/vehicle.interface';
+import { VehicleInterface } from '../../classes/vehicle.interface';
 import { isNullOrUndefined } from 'util';
 @Injectable({
   providedIn: 'root'
 })
 export class GarageResourceService extends Dexie {
   private vehiclesTable: Dexie.Table<VehicleInterface, number>;
-  private garageConfig: GarageConfigService;
-  constructor(garageConfigService: GarageConfigService) {
+  constructor(
+    private garageConfigService: GarageConfigService
+  ) {
     super('TheGarageDb');
     this.version(1).stores({
       vehicles: Vehicle.dbSchema(),
     });
     this.vehiclesTable = this.table('vehicles');
-
-    this.garageConfig = garageConfigService;
   }
 
   /**
@@ -64,8 +63,8 @@ export class GarageResourceService extends Dexie {
    */
   private findFreeParkingPlaceInFloor(occupiedParkingPlaces: VehicleInterface[], floor: number): ParkingPlaceInterface {
     // const occupiedParkingPlaces: Vehicle[] = await this.find({floor});
-    if (occupiedParkingPlaces.length < this.garageConfig.floorParkingPlaces) {
-      const place: number = this.garageConfig.structure.places
+    if (occupiedParkingPlaces.length < this.garageConfigService.floorParkingPlaces) {
+      const place: number = this.garageConfigService.structure.places
         .find(parkingPlace => !occupiedParkingPlaces.some((v: Vehicle) => v.place === parkingPlace));
       return { floor, place };
     }
@@ -98,7 +97,7 @@ export class GarageResourceService extends Dexie {
     return await this.transaction('rw', this.vehiclesTable, async () => {
       await this.checkPlateNotInGarage(vehicle.plate);
       const occupiedParkingPlaces: VehicleInterface[] = await this.find();
-      const floorPromises: Promise<ParkingPlaceInterface>[] = this.garageConfig.structure.floors
+      const floorPromises: Promise<ParkingPlaceInterface>[] = this.garageConfigService.structure.floors
         .map( async floor => this.findFreeParkingPlaceInFloor(occupiedParkingPlaces, floor));
       const parkingPlace: ParkingPlaceInterface = await Promise.race(floorPromises);
       Object.assign(vehicle, parkingPlace, {

@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './garage-routing.module';
 import { AppComponent } from './garage.component';
@@ -28,7 +29,8 @@ import { LeaveGarageComponent } from './components/leave-garage/leave-garage.com
     AppRoutingModule,
     FormsModule,
     NgbModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ToastrModule.forRoot()
   ],
   entryComponents: [
     LeaveGarageComponent

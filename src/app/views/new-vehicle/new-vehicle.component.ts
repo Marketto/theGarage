@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { faCarSide, faMotorcycle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { Vehicle } from 'src/app/classes/vehicle.class';
-import { VehicleType } from 'src/app/classes/vehicle-type.enum';
+import { Vehicle } from '../../classes/vehicle.class';
+import { VehicleType } from '../../classes/vehicle-type.enum';
 import { GarageResourceService } from '../../service/garage-resource/garage-resource.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'garage-new-vehicle',
@@ -16,7 +17,10 @@ export class NewVehicleComponent implements OnInit {
   public carType: VehicleType = VehicleType.CAR;
   public motorbykeType: VehicleType = VehicleType.MOTORBIKE;
 
-  constructor(private garageResource: GarageResourceService) {
+  constructor(
+    private garageResource: GarageResourceService,
+    private toastrService: ToastrService
+  ) {
     this.cleanVehicle();
   }
 
@@ -30,9 +34,8 @@ export class NewVehicleComponent implements OnInit {
    */
   public save() {
     this.garageResource.park(this.newVehicle)
-      .then(() => this.cleanVehicle());
-    //Goto floor
-    //show toast on error
+      .then(() => this.cleanVehicle())
+      .catch((err: Error) => this.toastrService.error(err.message));
   }
 
   ngOnInit() {
