@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./garage.component.scss']
 })
 export class AppComponent implements OnInit {
-  private searchCriteria: string;
+  public searchCriteria: string;
   public searchVehicle(searchCriteria: string) {
     this.updateQueryParams(searchCriteria);
   }
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
       queryParams: {
         filter: searchCriteria
       },
-      skipLocationChange: this.activatedRoute.routeConfig.path !== 'garage'
+    //  skipLocationChange: this.activatedRoute.routeConfig.path !== 'garage'
     });
   }
 
@@ -27,6 +27,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.searchCriteria = this.activatedRoute.snapshot.queryParams.filter;
+    this.activatedRoute.queryParams.subscribe(({filter}: {filter: string} = {filter: null}) => this.searchCriteria = filter);
   }
 }

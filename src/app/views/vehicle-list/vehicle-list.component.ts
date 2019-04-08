@@ -28,16 +28,24 @@ export class VehicleListComponent implements OnInit {
       .catch(() => {});
   }
 
+  private filterVehicleList(vehicles: VehicleInterface[]) {
+    const {floor, type} = this.activatedRoute.snapshot.params;
+    const {filter} = this.activatedRoute.snapshot.queryParams;
+    const level = parseInt(floor, 10);
+
+    this.vehicles = vehicles.filter(vehicle => (
+      isNaN(level) || level === vehicle.floor
+    ) && (
+      !Object.values(VehicleType).includes(type) || type === vehicle.type
+    ) && (
+      !filter || (new RegExp(filter, 'i')).test(vehicle.plate)
+    ));
+  }
+
   ngOnInit() {
     this.garageResourceService.find().then((vehicles: VehicleInterface[]) => {
-      this.activatedRoute.params.subscribe(({floor, type}: {floor: string, type: string} = {floor: null, type: null}) => {
-        const level = parseInt(floor, 10);
-        this.vehicles = vehicles.filter(vehicle => (
-          isNaN(level) || level === vehicle.floor
-        ) && (
-          !Object.values(VehicleType).includes(type) || type === vehicle.type
-        ));
-      });
+      this.activatedRoute.queryParams.subscribe(() => this.filterVehicleList(vehicles));
+      this.activatedRoute.params.subscribe(() => this.filterVehicleList(vehicles));
     }).catch((err: Error) => this.toastrService.error(err.message));
   }
 }
