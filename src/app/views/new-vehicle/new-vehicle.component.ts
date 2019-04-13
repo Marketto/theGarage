@@ -34,7 +34,11 @@ export class NewVehicleComponent implements OnInit {
    */
   public save() {
     this.garageResource.park(this.newVehicle)
-      .then(() => this.cleanVehicle())
+      .then((vehicle: Vehicle) => {
+        this.toastrService
+          .success(`The ${vehicle.type} ${vehicle.plate} is assigned to slot #${vehicle.place + 1} at floor ${vehicle.floor + 1}`);
+        this.cleanVehicle();
+      })
       .catch((err: Error) => this.toastrService.error(err.message));
   }
 

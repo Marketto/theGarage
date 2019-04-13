@@ -13,7 +13,7 @@ export class NavBarComponent implements OnInit {
   public menuIcon: IconDefinition = faBars;
   public routeViews: {url: string, title: string}[] = [{
     url: '/new-ticket',
-    title: 'Assign parking place'
+    title: 'Assign slot'
   }, {
     url: '/garage',
     title: 'Vehicles'

@@ -32,7 +32,8 @@ export class GarageResourceService extends Dexie {
    */
   public async find(criteria: {id?: number, plate?: string, floor?: number, place?: number} = {}): Promise<VehicleInterface[]> {
     const vehicleQuery = isNullOrUndefined(criteria.id) ? this.vehiclesTable : this.vehiclesTable.where({id: criteria.id});
-    const filters = Object.keys(criteria).filter(param => param !== 'id' && !isNullOrUndefined(criteria[param]));
+    const filters = Object.keys(criteria)
+      .filter((param: string) => param !== 'id' && !isNullOrUndefined(criteria[param]));
     const records = await vehicleQuery.toArray();
     return records.filter((vehicle: VehicleInterface) => !vehicle.leaveDt && !filters.some(param => criteria[param] !== vehicle[param]));
   }
@@ -45,6 +46,7 @@ export class GarageResourceService extends Dexie {
    * @param criteria.id? park ticket id
    * @param criteria.plate? plate number
    * @returns vehicle
+   * @throws {Error} Reading error or there's already a vehicle with the given plate in the garage
    */
   public async findOne({id, plate}: {id: number, plate?: string}|{id?: number, plate: string}): Promise<VehicleInterface> {
     const vehicles: VehicleInterface[] = await this.find({id, plate});
@@ -60,13 +62,16 @@ export class GarageResourceService extends Dexie {
    * @param occupiedParkingPlaces occupied parking place list
    * @param floor Target floor to seek for a free parking place
    * @returns parking place
+   * @throws {Error} Reading error or floor is full
    */
   private findFreeParkingPlaceInFloor(occupiedParkingPlaces: VehicleInterface[], floor: number): ParkingPlaceInterface {
-    // const occupiedParkingPlaces: Vehicle[] = await this.find({floor});
-    if (occupiedParkingPlaces.length < this.garageConfigService.floorParkingPlaces) {
+    const occupiedParkingPlacesInFloor: VehicleInterface[] = occupiedParkingPlaces
+      .filter((parkedVehicle: VehicleInterface) => parkedVehicle.floor === floor);
+
+    if (occupiedParkingPlacesInFloor.length < this.garageConfigService.floorParkingPlaces) {
       const place: number = this.garageConfigService.structure.places
-        .find(parkingPlace => !occupiedParkingPlaces.some((v: Vehicle) => v.place === parkingPlace));
-      return { floor, place };
+        .find(parkingPlace => !occupiedParkingPlacesInFloor.some((parkedVehicle: Vehicle) => parkedVehicle.place === parkingPlace));
+      return { floor, place } as ParkingPlaceInterface;
     }
     throw new Error(`Floor ${floor} is full`);
   }
@@ -84,7 +89,36 @@ export class GarageResourceService extends Dexie {
     if (!vehicle) {
       return plate;
     }
-    throw new Error(`A Vehicle with plate ${plate} is still parked at floor ${vehicle.floor}, in #${vehicle.place} place`);
+    throw new Error(`A Vehicle with plate ${plate} is still parked at floor ${vehicle.floor}, in place #${vehicle.place}`);
+  }
+
+  /**
+   * Perform a parallel check on each garage floor seeking for a free parking place
+   * @async
+   * @returns Free Parking place informations
+   * @throws Reading error or the garage is full (all floors resolve being full)
+   */
+  private async seekFirstAvailableParkingPlace(): Promise<ParkingPlaceInterface> {
+    // Retrieving all vehicles
+    const occupiedParkingPlaces: VehicleInterface[] = await this.find();
+    // Creating a list of promises to catch all full floors (reversing promises)
+    const fullFloorPrimises: Promise<ParkingPlaceInterface>[] = this.garageConfigService.structure.floors
+        .map( async (floor: number) => {
+          let result: ParkingPlaceInterface;
+          try {
+            result = this.findFreeParkingPlaceInFloor(occupiedParkingPlaces, floor);
+          } catch (failure) {
+            return failure;
+          }
+          throw result;
+        });
+    // Resolving all full-floor promises in parallel:
+    // If all will resolves then the garage is full
+    // The first one which will stop the flow would throw a free parking place
+    return new Promise((resolve, reject) => Promise.all(fullFloorPrimises)
+      .then(() => reject(new Error('The garage is full'))) // All floors were checked and are full
+      .catch(resolve) // One of the promises threw a free parking place, blocking the whole flow
+    );
   }
 
   /**
@@ -96,10 +130,9 @@ export class GarageResourceService extends Dexie {
   public async park(vehicle: Vehicle): Promise<Vehicle> {
     return await this.transaction('rw', this.vehiclesTable, async () => {
       await this.checkPlateNotInGarage(vehicle.plate);
-      const occupiedParkingPlaces: VehicleInterface[] = await this.find();
-      const floorPromises: Promise<ParkingPlaceInterface>[] = this.garageConfigService.structure.floors
-        .map( async floor => this.findFreeParkingPlaceInFloor(occupiedParkingPlaces, floor));
-      const parkingPlace: ParkingPlaceInterface = await Promise.race(floorPromises);
+
+      const parkingPlace = await this.seekFirstAvailableParkingPlace();
+
       Object.assign(vehicle, parkingPlace, {
         enterDt: new Date()
       });
