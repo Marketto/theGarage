@@ -1,4 +1,5 @@
-.search
+.search.input-group.has-feedback
+    fa-icon.form-control-feedback([icon]="searchIcon")
     input.form-control(type="search", placeholder="Search", [(ngModel)]="search")
 .list
     h6 Levels
@@ -6,7 +7,7 @@
         li(*ngFor="let level of floors")
             a([routerLink]="['/garage/level', level]", routerLinkActive="active") Level {{level + 1}}
 .list
-    h6 Types
+    h6 Type
     ul
         li
             a([routerLink]="['/garage/vehicle', carType]", routerLinkActive="active") Car
