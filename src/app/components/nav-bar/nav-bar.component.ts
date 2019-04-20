@@ -21,7 +21,7 @@ export class NavBarComponent implements OnInit {
 
   get currentRouteTitle(): string {
     const routeStateUrl = this.router.routerState.snapshot.url;
-    const currentRoute = this.routeViews.find(route => route.url === routeStateUrl)
+    const currentRoute = this.routeViews.find(route => new RegExp(`^${route.url}`).test(routeStateUrl));
     return currentRoute ? currentRoute.title : null;
   }
 

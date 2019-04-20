@@ -4,12 +4,12 @@
 .list
     h6 Levels
     ul
-        li(*ngFor="let level of floors")
-            a([routerLink]="['/garage/level', level]", routerLinkActive="active") Level {{level + 1}}
+        li(*ngFor="let targetLevel of floors")
+            a([routerLink]="makeUrl({'level': targetLevel})", [ngClass]="{'active': targetLevel === level}") Level {{targetLevel + 1}}
 .list
     h6 Type
     ul
         li
-            a([routerLink]="['/garage/vehicle', carType]", routerLinkActive="active") Car
+            a([routerLink]="makeUrl({type: carType})", [ngClass]="{'active': type === carType}") Car
         li
-            a([routerLink]="['/garage/vehicle', motorbykeType]", routerLinkActive="active") Motorbike
+            a([routerLink]="makeUrl({type: motorbikeType})", [ngClass]="{'active': type === motorbikeType}") Motorbike

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GarageResourceService } from '../../service/garage-resource/garage-resource.service';
 import { VehicleInterface } from '../../classes/vehicle.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleType } from 'src/app/classes/vehicle-type.enum';
 import { VehicleOperationService } from '../../service/vehicle-operation/vehicle-operation.service';
 import { ToastrService } from 'ngx-toastr';
@@ -13,12 +13,19 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class VehicleListComponent implements OnInit {
   public vehicles: VehicleInterface[];
+  public searchCriteria: string;
+  public currentLevel: number;
+  public currentType: VehicleType;
+  public searchVehicle(searchCriteria: string) {
+    this.updateQueryParams(searchCriteria);
+  }
 
   constructor(
     private garageResourceService: GarageResourceService,
     private activatedRoute: ActivatedRoute,
     private vehicleOperationService: VehicleOperationService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private router: Router
   ) {}
 
   leaveGarage(vehicle: VehicleInterface) {
@@ -28,10 +35,14 @@ export class VehicleListComponent implements OnInit {
       .catch(() => {});
   }
 
-  private filterVehicleList(vehicles: VehicleInterface[]) {
+  private updateVehicleFilters(vehicles: VehicleInterface[]) {
     const {floor, type} = this.activatedRoute.snapshot.params;
     const {filter} = this.activatedRoute.snapshot.queryParams;
     const level = parseInt(floor, 10);
+
+    this.searchCriteria = filter;
+    this.currentLevel = level;
+    this.currentType = type;
 
     this.vehicles = vehicles.filter(vehicle => (
       isNaN(level) || level === vehicle.floor
@@ -42,10 +53,19 @@ export class VehicleListComponent implements OnInit {
     ));
   }
 
+  private updateQueryParams(searchCriteria) {
+    this.router.navigate(['garage'], {
+      queryParams: {
+        filter: searchCriteria
+      },
+    //  skipLocationChange: this.activatedRoute.routeConfig.path !== 'garage'
+    });
+  }
+
   ngOnInit() {
     this.garageResourceService.find().then((vehicles: VehicleInterface[]) => {
-      this.activatedRoute.queryParams.subscribe(() => this.filterVehicleList(vehicles));
-      this.activatedRoute.params.subscribe(() => this.filterVehicleList(vehicles));
+      this.activatedRoute.queryParams.subscribe(() => this.updateVehicleFilters(vehicles));
+      this.activatedRoute.params.subscribe(() => this.updateVehicleFilters(vehicles));
     }).catch((err: Error) => this.toastrService.error(err.message));
   }
 }

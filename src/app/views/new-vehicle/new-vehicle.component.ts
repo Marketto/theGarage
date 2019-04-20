@@ -15,7 +15,7 @@ export class NewVehicleComponent implements OnInit {
   public motoIcon: IconDefinition = faMotorcycle;
   public newVehicle: Vehicle;
   public carType: VehicleType = VehicleType.CAR;
-  public motorbykeType: VehicleType = VehicleType.MOTORBIKE;
+  public motorbikeType: VehicleType = VehicleType.MOTORBIKE;
 
   constructor(
     private garageResource: GarageResourceService,

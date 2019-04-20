@@ -18,10 +18,19 @@ const routes: Routes = [
       },
       {
         path: 'level/:floor',
-        component: VehicleListComponent
+        children: [
+          {
+            path: '',
+            component: VehicleListComponent
+          },
+          {
+            path: 'type/:type',
+            component: VehicleListComponent
+          }
+        ]
       },
       {
-        path: 'vehicle/:type',
+        path: 'type/:type',
         component: VehicleListComponent
       }
     ]

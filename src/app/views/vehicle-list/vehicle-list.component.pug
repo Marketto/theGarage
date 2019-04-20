@@ -1,3 +1,5 @@
+
+garage-side-bar.d-none.d-lg-block((searchChange)="searchVehicle($event)", [search]="searchCriteria", [type]="currentType", [level]="currentLevel")
 .container
     .row(*ngFor="let vehicle of vehicles")
         garage-parking-ticket.col-sm([ticket]="vehicle", (useTicket)="leaveGarage($event)")

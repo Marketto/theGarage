@@ -49,16 +49,17 @@
             color: $color;
             list-style: none;
             padding: 0;
-            &>li {
+            &>li a {
                 display: flex;
                 align-items: center;
+                text-decoration: none;
                 &::before {
                     content: '•';
                     line-height: 1rem;
                     font-size: 1.8rem;
                     margin: 0 0.6rem;
                 }
-                a {
+                &:not(.active) {
                     color: $color;
                 }
             }
