@@ -12,10 +12,12 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./vehicle-list.component.scss']
 })
 export class VehicleListComponent implements OnInit {
-  public vehicles: VehicleInterface[];
-  public searchCriteria: string;
   public currentLevel: number;
   public currentType: VehicleType;
+  public vehicles: VehicleInterface[] = [];
+  public searchCriteria: string;
+  public pageStartIndex = 0;
+  public pageEndIndex = 0;
   public searchVehicle(searchCriteria: string) {
     this.updateQueryParams(searchCriteria);
   }
@@ -60,6 +62,11 @@ export class VehicleListComponent implements OnInit {
       },
     //  skipLocationChange: this.activatedRoute.routeConfig.path !== 'garage'
     });
+  }
+
+  public navigatePagination({start, end}: {start: number, end: number}) {
+    this.pageStartIndex = start;
+    this.pageEndIndex = end;
   }
 
   ngOnInit() {

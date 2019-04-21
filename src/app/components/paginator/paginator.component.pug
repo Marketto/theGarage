@@ -1,0 +1,15 @@
+.paginator-header
+  .paginator-counter
+    .slice-container
+      .first {{startIndex}}
+      .last {{endIndex}}
+    .slash /
+    .total {{total}}
+  .title Vehicles
+  .scroll
+    a.up((click)="scrollUp()", [ngClass]="{disabled: startIndex === 1}")
+      fa-icon.btn.text-primary([icon]="pageUpIcon", size="2x")
+    a.down((click)="scrollDown()", [ngClass]="{disabled: endIndex === total}")
+      fa-icon.btn.text-primary([icon]="pageDownIcon", size="2x")
+.container(#content)
+  ng-content

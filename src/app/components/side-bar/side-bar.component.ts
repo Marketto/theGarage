@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GarageConfigService } from 'src/app/service/garage-config/garage-config.service';
 import { faSearch, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { VehicleType } from 'src/app/classes/vehicle-type.enum';
-import { Router } from '@angular/router';
 import { isNumber, isNullOrUndefined } from 'util';
 
 @Component({

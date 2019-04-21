@@ -1,0 +1,47 @@
+:host {
+    .paginator-header {
+        flex-direction: row;
+        &, .paginator-counter, .slice-container, .scroll {
+            display: flex;
+        }
+
+        $fontSize: 2rem;
+        $smallFontSize: $fontSize / 2.4;
+        .paginator-counter {
+            flex-direction: row;
+            font-size: $fontSize;
+            align-items: center;
+            justify-content: start;
+            
+            .slice-container {
+                flex-direction: column;
+                text-align: end;
+                font-size: $smallFontSize;
+                line-height: $smallFontSize;
+                font-weight: bold;
+            }
+            .total {
+                color: lightgrey;
+                font-weight: bold;
+            }
+            &>* {
+                padding: 0 0.1rem;
+            }
+        }
+        .title {
+            margin-left: $smallFontSize;
+            padding-top: $fontSize - ($smallFontSize * 2);
+            font-size: $smallFontSize;
+            text-transform: uppercase;
+        }
+        .scroll {
+            margin: 0 $fontSize;
+            &>:not(.disabled) {
+                cursor: pointer;
+            }
+            &>.disabled {
+                filter: grayscale(100) brightness(2);
+            }
+        }
+    }
+}

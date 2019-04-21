@@ -14,6 +14,7 @@ import { VehicleListComponent } from './views/vehicle-list/vehicle-list.componen
 import { NewVehicleComponent } from './views/new-vehicle/new-vehicle.component';
 import { ParkingTicketComponent } from './components/parking-ticket/parking-ticket.component';
 import { LeaveGarageComponent } from './components/leave-garage/leave-garage.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LeaveGarageComponent } from './components/leave-garage/leave-garage.com
     VehicleListComponent,
     NewVehicleComponent,
     ParkingTicketComponent,
-    LeaveGarageComponent
+    LeaveGarageComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,

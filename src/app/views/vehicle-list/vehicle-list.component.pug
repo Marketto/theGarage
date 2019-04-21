@@ -1,5 +1,5 @@
 
 garage-side-bar.d-none.d-lg-block((searchChange)="searchVehicle($event)", [search]="searchCriteria", [type]="currentType", [level]="currentLevel")
 .container
-    .row(*ngFor="let vehicle of vehicles")
-        garage-parking-ticket.col-sm([ticket]="vehicle", (useTicket)="leaveGarage($event)")
+    garage-paginator.row(limit="5", [total]="vehicles.length", (navigate)="navigatePagination($event)")
+        garage-parking-ticket(*ngFor="let vehicle of vehicles | slice : pageStartIndex : pageEndIndex", [ticket]="vehicle", (useTicket)="leaveGarage($event)")
