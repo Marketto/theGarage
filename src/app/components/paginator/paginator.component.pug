@@ -1,12 +1,15 @@
-.paginator-header
-  .paginator-counter
-    .slice-container
+.paginator-header([ngSwitch]="total > 0")
+  .paginator-counter([ngSwitch]="limit < total", *ngSwitchCase="true")
+    .slice-container(*ngSwitchCase="true")
       .first {{startIndex}}
       .last {{endIndex}}
-    .slash /
+    .slash(*ngSwitchCase="true") /
     .total {{total}}
-  .title Vehicles
-  .scroll
+  .title([ngPlural]="total")
+    ng-template(ngPluralCase="=0") No vehicles
+    ng-template(ngPluralCase="one") Vehicle
+    ng-template(ngPluralCase="other") Vehicles
+  .scroll(*ngSwitchCase="true")
     a.up((click)="scrollUp()", [ngClass]="{disabled: startIndex === 1}")
       fa-icon.btn.text-primary([icon]="pageUpIcon", size="2x")
     a.down((click)="scrollDown()", [ngClass]="{disabled: endIndex === total}")

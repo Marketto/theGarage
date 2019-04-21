@@ -20,8 +20,10 @@
                 line-height: $smallFontSize;
                 font-weight: bold;
             }
-            .total {
+            .slash+.total {
                 color: lightgrey;
+            }
+            .total {
                 font-weight: bold;
             }
             &>* {
